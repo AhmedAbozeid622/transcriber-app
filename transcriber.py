@@ -15,8 +15,8 @@ print('1. API is read ...')
 from pytube import YouTube
 import os
 
-#video = YouTube("https://www.youtube.com/watch?v=mkVjrB8g6mM")
-video = YouTube(args.i)
+video = YouTube("https://www.youtube.com/watch?v=mkVjrB8g6mM")
+# video = YouTube(args.i)
 yt = video.streams.get_audio_only()
 
 yt.download()
@@ -36,7 +36,7 @@ import sys
 import time
 import requests
 
-filename = mp4_file
+filename = '/content/unit 10.mp4'
 
 def read_file(filename, chunk_size=5242880):
     with open(filename, 'rb') as _file:
@@ -72,13 +72,14 @@ headers = {
 }
 
 transcript_input_response = requests.post(endpoint, json=json, headers=headers)
-
+print(transcript_input_response.text)
 print('4. Transcribing uploaded file')
 
 
 # 5. Extract transcript ID
 
 transcript_id = transcript_input_response.json()["id"]
+print(transcript_id)
 
 print('5. Extract transcript ID')
 
@@ -114,7 +115,7 @@ print(transcript_output_response.json()["text"])
 # 8. Save transcribed text to file
 
 # Save as TXT file
-yt_txt = open('yt.txt', 'w')
+yt_txt = open('yt1.txt', 'w')
 yt_txt.write(transcript_output_response.json()["text"])
 yt_txt.close()
 
@@ -122,5 +123,5 @@ yt_txt.close()
 srt_endpoint = endpoint + "/srt"
 srt_response = requests.get(srt_endpoint, headers=headers)
 
-with open("yt.srt", "w") as _file:
+with open("yt1.srt", "w") as _file:
     _file.write(srt_response.text)
